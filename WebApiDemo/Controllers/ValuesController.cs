@@ -10,35 +10,12 @@ namespace WebApiDemo.Controllers
 {
     public class ValuesController : ApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
+        [HttpGet]
+       public IHttpActionResult SetStr(string key,string value)
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/values/5
-        public string Get(int id)
-        {
-            if (Cache.Exists(id.ToString()))
-                return Cache.Get<string>(id.ToString());
-            else
-                return "notfound";
-        }
-
-        // POST api/values
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
-        {
-            Cache.Insert<string>(id.ToString(),value,600);
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
+            RedisConnectionHelp con = new RedisConnectionHelp();
+            var res = con.Redis(db => db.StringSet(key, value));
+            return Ok(res);
         }
     }
 }

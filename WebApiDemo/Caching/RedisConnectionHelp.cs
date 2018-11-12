@@ -15,7 +15,7 @@ namespace WebApiDemo.Caching
     public class RedisConnectionHelp
     {
         //"127.0.0.1:6379,allowadmin=true
-        private static readonly string RedisConnectionString = ConfigurationManager.ConnectionStrings["RedisServer"].ConnectionString;
+        private static string RedisConnectionString = ConfigurationManager.AppSettings["RedisServer"];
         private int DbNum { get; }
         private static readonly object Locker = new object();
         private static ConnectionMultiplexer _instance;
@@ -80,7 +80,7 @@ namespace WebApiDemo.Caching
             return connect;
         }
 
-        private T Redis<T>(Func<IDatabase, T> func)
+        public T Redis<T>(Func<IDatabase, T> func)
         {
             var database = _instance.GetDatabase(DbNum);
             return func(database);
