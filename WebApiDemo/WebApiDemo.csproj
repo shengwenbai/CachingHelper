@@ -186,6 +186,9 @@
     <Compile Include="Caching\CacheHelper.cs" />
     <Compile Include="Caching\ICache.cs" />
     <Compile Include="Caching\RedisCache.cs" />
+    <Compile Include="Caching\RedisConnectionHelp.cs" />
+    <Compile Include="Caching\RedisHelper.cs" />
+    <Compile Include="Common\Function.cs" />
     <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
