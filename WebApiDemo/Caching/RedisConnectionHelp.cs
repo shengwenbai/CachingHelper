@@ -24,11 +24,13 @@ namespace WebApiDemo.Caching
         public RedisConnectionHelp(int dbNum = 0) : this(dbNum, null)
         {
         }
-        public  RedisConnectionHelp(int _dbNum,string readWriteHosts)
+        public RedisConnectionHelp(int _dbNum, string readWriteHosts)
         {
             DbNum = _dbNum;
             _instance = string.IsNullOrWhiteSpace(readWriteHosts) ? Instance : GetConnectionMultiplexer(readWriteHosts);
+            //_instance.PreserveAsyncOrder = false;
         }
+
         /// <summary>
         /// 单例获取
         /// </summary>
@@ -67,7 +69,19 @@ namespace WebApiDemo.Caching
         private static ConnectionMultiplexer GetManager(string connectionString = null)
         {
             connectionString = string.IsNullOrWhiteSpace(connectionString) ? RedisConnectionString : connectionString;
-            var connect = ConnectionMultiplexer.Connect(connectionString);
+            var config = new ConfigurationOptions
+            {
+                AbortOnConnectFail = false,
+                AllowAdmin = true,
+                ConnectTimeout = 15000,
+                SyncTimeout = 5000,
+                ResponseTimeout = 15000,
+                Password = "LangeSoftPwd",
+                EndPoints = { connectionString }
+            };
+
+            var connect = ConnectionMultiplexer.Connect(config);
+            
 
             //注册如下事件
             connect.ConnectionFailed += MuxerConnectionFailed;
