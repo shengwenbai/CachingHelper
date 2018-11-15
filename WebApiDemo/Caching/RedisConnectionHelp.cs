@@ -67,7 +67,6 @@ namespace WebApiDemo.Caching
         private static ConnectionMultiplexer GetManager(string connectionString = null)
         {
             connectionString = string.IsNullOrWhiteSpace(connectionString) ? RedisConnectionString : connectionString;
-
             var connect = ConnectionMultiplexer.Connect(connectionString);
 
             //注册如下事件
